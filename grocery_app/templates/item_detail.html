@@ -2,6 +2,8 @@
 
 <h1>Item - {{ item.name }}</h1>
 
+<p>Added by: {{ created_by.username }}</p>
+
 <p><img src="{{ item.photo_url }}" width="250px" height="250px" /></p>
 
 <p><strong>Price:</strong> {{ item.price }}</p>
@@ -9,6 +11,18 @@
 <p><strong>Category:</strong> {{ item.category }}</p>
 
 <p><strong>Store:</strong> {{ item.store.title }}</p>
+
+{% if item not in current_user.items %}
+<form action="/add_to_shopping_list/{{ item.id }}" method="POST">
+  <input type="submit" value="Add to shopping list" />
+</form>
+{% else %}
+<!-- TODO: Show this only if the user is logged in and the book is not in their 
+        favorites-->
+<form action="/remove_from_shopping_list/{{ item.id }}" method="POST">
+  <input type="submit" value="Remove from shopping list" />
+</form>
+{% endif %}
 
 <h2>Edit Item</h2>
 
